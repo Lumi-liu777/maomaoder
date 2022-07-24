@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/jquery-3.6.0.min.js"></script>
+    <script src="./js/bootstrap/bootstrap.min.js"></script>
+    <!-- Load d3.js -->
+    <script src="https://d3js.org/d3.v7.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v3.min.js"></script>
+    <script src="https://d3js.org/d3-collection.v1.min.js"></script>
+    <script src="./js/index.js"></script>
+
+    <link rel="stylesheet" href="./css/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+</head>
+
+<body>
+    <header>
+        <!-- Navbar -->
+        <nav class="navbar navbar-expand-lg fixed-top cuz-bg-color-primary-dark">
+            <div id="navTitle" class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item text-nowrap cuz-active">
+                        <a class="nav-link h5 font-weight-bold cuz-color-secondary-black" aria-current="page" href="#">毛毛的</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="headerLogin" class="ml-auto">
+                <ul class="navbar-nav" onclick="showLoginModal();">
+                    <li class="nav-item text-nowrap cuz-active">
+                        <a class="nav-link h5 font-weight-bold cuz-color-secondary-black" aria-current="page" href="#">登入</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Navbar -->
+
+        <!-- Background image -->
+        <div class="cuz-bg-img">
+            <div class="d-flex justify-content-left align-items-center h-100 ml-5">
+                <div class="cuz-hearer-title">
+                    <h1>請支持 TNR</h1>
+                    <h4>讓他們有活下去的希望</h4>
+                </div>
+            </div>
+        </div>
+        <!-- Background image -->
+    </header>
+
+
+    <main class="container-fluid">
+        <article class="">
+            <section id="showActionDataList" class="my-5 d-flex justify-content-center"></section>
+        </article>
+
+        <article class="row mb-5">
+            <section class="col-xl-4 col-lg-4 col-md-3 col-12 d-flex">
+                <div class="d-flex mx-auto mt-5">
+                    <div class="mt-5">
+                        <img src="./img/dog-teach.png" alt="" srcset="">
+                    </div>
+                    <div class="d-inline-block">
+                        <div class="d-flex cuz-dog-teach-pop cuz-bg-color-primary">
+                            <div class="mx-auto my-auto">請點選您欲<br>前往的地區</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="col-xl-3 col-lg-4 col-md-5 col-12 d-flex justify-content-center">
+                <svg id="twMap"></svg>
+            </section>
+            <section class="col-xl-5 col-lg-4 col-md-4 col-12 mb-5 d-flex">
+                <div class="my-auto mx-xl-0 mx-lg-0 mx-md-0 mx-sm-auto">
+                    <div class="position-absolute cuz-city-desc-R cuz-bg-color-primary"></div>
+                    <div class="position-absolute">
+                        <div id="mapCityName" class=" h2 mt-3 mb-0 ml-3">台中市</div>
+                        <div id="mapCityEngName" class=" h2 font-italic font-weight-lighter ml-3">Taichung</div>
+                    </div>
+                </div>
+            </section>
+        </article>
+        <article class="row">
+            <section class="col-1"></section>
+            <section class="col-10">
+                <div class="card-deck mt-5 justify-content-center" id="showPlaceDataList"></div>
+            </section>
+            <section class="col-1"></section>
+        </article>
+        <!-- <article class="row mb-5">
+            <section class="col-3"></section>
+            <section class="col-6 d-flex">
+                <div class="mx-auto my-auto d-flex">
+                    <i class="h2 bi bi-arrow-left-circle"></i>
+                    <div class="text-center my-auto cuz-page-current-R">1</div>
+                    <div class="text-center my-auto cuz-page-current-R">2</div>
+                    <div class="text-center my-auto cuz-page-current-R font-weight-bold cuz-color-secondary">3</div>
+                    <div class="text-center my-auto cuz-page-current-R">4</div>
+                    <div class="text-center my-auto cuz-page-current-R">5</div>
+                    <i class="h2 bi bi-arrow-right-circle"></i>
+                </div>
+            </section>
+            <section class="col-3"></section>
+        </article> -->
+    </main>
+
+    <div id="placeModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered cuz-modal-box">
+            <div class="modal-content cuz-card-modal-content cuz-bg-color-primary-light">
+                <article id="modalBody" class="modal-body row flex-nowrap">
+
+                    <!-- >    <div class="mb-4">
+                                <div class="mb-4">
+                                    <h4>看看大家怎麼說</h4>
+                                </div>
+                                <div class="ml-3 mr-3 mb-2">
+                                    <div class="d-flex row cuz-modal-comment-box cuz-bg-color-secondary-white">
+                                        <div class="mt-2 col-1">
+                                            <div class="mr-3 cuz-modal-comment-custmoer-img-C" style="background-image: url('./img/customer-img/1.png');"></div>
+                                        </div>
+                                        <div class="d-flex flex-column mt-2 col-11">
+                                            <div class="font-weight-bold cuz-font-size-12 cuz-color-secondary-black-30">
+                                                <div class="d-inline-block mr-1">Amy</div>
+                                                <div class="d-inline-block">2022/3/31</div>
+                                            </div>
+                                            <div class="cuz-font-size-14 mb-2">
+                                                今天感謝一同移居台中的香港朋友，帶領我們在 2021年冬天最寒冷一日，開車閒遊了台中西屯區東海大學後，來到南屯區黎明新村，以照顧流浪貓貓狗狗為經營最大目標的餐廳：浪浪別哭被一座座古舊透天厝包圍的 浪浪別哭，只是樓高兩層的平房，地下是狗狗專區、2樓就是貓貓專區，身為貓奴的我們 4人，自然就往 2樓進發，探望一眾浪浪吧
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ml-3 mr-3 mb-2">
+                                    <div class="d-flex row cuz-modal-comment-box cuz-bg-color-secondary-white">
+                                        <div class="mt-2 col-1">
+                                            <div class="mr-3 cuz-modal-comment-custmoer-img-C" style="background-image: url('./img/customer-img/1.png');"></div>
+                                        </div>
+                                        <div class="d-flex flex-column mt-2 col-11">
+                                            <div class="font-weight-bold cuz-font-size-12 cuz-color-secondary-black-30">
+                                                <div class="d-inline-block mr-1">Amy</div>
+                                                <div class="d-inline-block">2022/3/31</div>
+                                            </div>
+                                            <div class="cuz-font-size-14 mb-2">
+                                                今天感謝一同移居台中的香港朋友，帶領我們在 2021年冬天最寒冷一日，開車閒遊了台中西屯區東海大學後，來到南屯區黎明新村，以照顧流浪貓貓狗狗為經營最大目標的餐廳：浪浪別哭被一座座古舊透天厝包圍的 浪浪別哭，只是樓高兩層的平房，地下是狗狗專區、2樓就是貓貓專區，身為貓奴的我們 4人，自然就往 2樓進發，探望一眾浪浪吧
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ml-3 mr-3 mb-2">
+                                    <div class="d-flex row cuz-modal-comment-box cuz-bg-color-secondary-white">
+                                        <div class="mt-2 col-1">
+                                            <div class="mr-3 cuz-modal-comment-custmoer-img-C" style="background-image: url('./img/customer-img/1.png');"></div>
+                                        </div>
+                                        <div class="d-flex flex-column mt-2 col-11">
+                                            <div class="font-weight-bold cuz-font-size-12 cuz-color-secondary-black-30">
+                                                <div class="d-inline-block mr-1">Amy</div>
+                                                <div class="d-inline-block">2022/3/31</div>
+                                            </div>
+                                            <div class="cuz-font-size-14 mb-2">
+                                                今天感謝一同移居台中的香港朋友，帶領我們在 2021年冬天最寒冷一日，開車閒遊了台中西屯區東海大學後，來到南屯區黎明新村，以照顧流浪貓貓狗狗為經營最大目標的餐廳：浪浪別哭被一座座古舊透天厝包圍的 浪浪別哭，只是樓高兩層的平房，地下是狗狗專區、2樓就是貓貓專區，身為貓奴的我們 4人，自然就往 2樓進發，探望一眾浪浪吧
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>-->
+                </article>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="loginModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-s">
+            <div class="modal-content cuz-card-modal-content cuz-bg-color-primary-light cuz-login-modal-h">
+                <article class="modal-body p-0">
+                    <div class="col-12 cuz-login-modal-bg-img"></div>
+                    <div id="loginBlock">
+                        <section class="col-12 my-3">
+                            <div class="h3 font-weight-normal text-center cuz-color-secondary-green">登入會員</div>
+                        </section>
+                        <section class="col-12 mb-4 d-flex flex-column">
+                            <fieldset class="form-group mx-3 my-2">
+                                <div class="d-flex">
+                                    <label for="loginAccount">
+                               <span class="text-danger">*</span> 
+                               帳號
+                            </label>
+                                </div>
+                                <input type="email" class="form-control" id="loginAccount" placeholder="請輸入帳號" required>
+                            </fieldset>
+                            <fieldset class="form-group mx-3 my-2">
+                                <div class="d-flex">
+                                    <label for="loginPasswd">
+                                <span class="text-danger">*</span> 
+                                密碼
+                             </label>
+                                </div>
+                                <input type="password" class="form-control" id="loginPasswd" placeholder="請輸入密碼" required>
+
+                            </fieldset>
+                        </section>
+                        <section class="col-12 mb-4 row mx-0 p-0">
+                            <div class="col-2"></div>
+                            <div class="col-4 d-flex">
+                                <button class="btn mx-auto cuz-btn-secondary" onclick="disLogin();">取消登入</button>
+                            </div>
+                            <div class=" col-4 d-flex">
+                                <button class="btn mx-auto cuz-btn-primary font-weight-bold" onclick="showSignUpNext();">登入</button>
+                            </div>
+                            <div class="col-2"></div>
+                        </section>
+                        <section class="col-12 mb-4 row mx-0 p-0">
+                            <div class="col-2"></div>
+                            <div class="col-8 d-flex justify-content-center">
+                                <div class="d-flex">
+                                    <div>還沒有帳號？</div>
+                                    <div class="font-weight-bold cuz-color-secondary-green ml-1 cuz-font-hover" onclick="showSignUp();">立即註冊</div>
+                                </div>
+                            </div>
+                            <div class="col-2"></div>
+                        </section>
+                    </div>
+                    <div id="signUpBlock" class="d-none">
+                        <section class="col-12 my-3">
+                            <div class="h3 font-weight-normal text-center cuz-color-secondary-green">註冊會員</div>
+                        </section>
+                        <section class="col-12 mb-3">
+                            <div class="row mx-0 justify-content-center">
+                                <div class="col-1"></div>
+                                <div class="d-inline-block col-2">
+                                    <div class="cuz-login-modal-step-circle cuz-bg-color-primary-dark d-flex">
+                                        <div class="h3 mx-auto my-auto cuz-color-secondary-white">1</div>
+                                    </div>
+                                </div>
+                                <div class="d-inline-block col-2 m-0 p-0 my-auto">
+                                    <div class="cuz-login-modal-step-line cuz-bg-color-primary-dark"></div>
+                                </div>
+                                <div class="d-inline-block col-2">
+                                    <div id="stepSecondCircle" class="cuz-login-modal-step-circle cuz-bg-color-secondary-black-10 d-flex">
+                                        <div class="h3 mx-auto my-auto cuz-color-secondary-white">2</div>
+                                    </div>
+                                </div>
+                                <div class="d-inline-block col-2 m-0 p-0 my-auto">
+                                    <div class="cuz-login-modal-step-line cuz-bg-color-secondary-black-10">
+                                        <div id="stepSecondLine" class="d-none"></div>
+                                    </div>
+                                </div>
+                                <div class="d-inline-block col-2">
+                                    <div id="stepEndCircle" class="cuz-login-modal-step-circle cuz-bg-color-secondary-black-10 d-flex">
+                                        <div class="h3 mx-auto my-auto cuz-color-secondary-white">3</div>
+                                    </div>
+                                </div>
+                                <div class="col-1"></div>
+                            </div>
+                        </section>
+                        <div id="stepFirstBlock" class="">
+                            <section class="col-12 mb-3">
+                                <div class="h5 font-weight-normal text-center">Welcome！請填寫基本資料</div>
+                            </section>
+                            <section class="col-12 mb-4 d-flex flex-column">
+                                <fieldset class="form-group mx-3 my-2">
+                                    <div class="d-flex">
+                                        <label for="email">
+                                   <span class="text-danger">*</span> 
+                                   Email
+                                </label>
+                                        <span class="d-inline-block ml-auto cuz-font-size-12 cuz-color-secondary-black-30">信箱將作為未來登入帳號使用</span>
+                                    </div>
+                                    <input type="email" class="form-control" id="email" placeholder="name@gmail.com" required>
+                                </fieldset>
+                                <fieldset class="form-group mx-3 my-2">
+                                    <div class="d-flex">
+                                        <label for="passwd">
+                                    <span class="text-danger">*</span> 
+                                    密碼
+                                 </label>
+                                        <span class="d-inline-block ml-auto cuz-font-size-12 cuz-color-secondary-black-30">請輸入含大小寫英文以及數字組合之八位數密碼</span>
+                                    </div>
+                                    <input type="password" class="form-control" id="passwd" required>
+
+                                </fieldset>
+                                <fieldset class="form-group mx-3 my-2">
+                                    <label for="nickName">
+                                <span class="text-danger">*</span> 
+                                暱稱
+                             </label>
+                                    <input type="text" class="form-control" id="nickName" required>
+                                </fieldset>
+                            </section>
+                            <section class="col-12 mb-4 row mx-0 p-0">
+                                <div class="col-2"></div>
+                                <div class="col-4 d-flex">
+                                    <button class="btn mx-auto cuz-btn-secondary" onclick="disSignUp();">取消註冊</button>
+                                </div>
+                                <div class=" col-4 d-flex">
+                                    <button class="btn mx-auto cuz-btn-primary font-weight-bold" onclick="showSignUpNext();">下一步</button>
+                                </div>
+                                <div class="col-2"></div>
+                            </section>
+                        </div>
+                        <div id="stepSecondBlock" class="d-none">
+                            <section class="col-12 mb-3">
+                                <div class="h5 font-weight-normal text-center">加油，就快完成了！</div>
+                            </section>
+                            <section class="col-12 mb-4 d-flex flex-column">
+                                <div class="my-2">
+                                    <div class="text-center">
+                                        <label for="exampleFormControlInput1" class="font-weight-bold cuz-color-primary-darkest">家中有哪些寶貝 </label>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input class="custom-control-input" type="radio" name="havePet" id="haveDog" value="1" checked>
+                                            <label class="custom-control-label pl-1 cuz-pt-2px" for="haveDog">狗</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+
+                                            <input class="custom-control-input" type="radio" name="havePet" id="haveCat" value="2">
+                                            <label class="custom-control-label pl-1 cuz-pt-2px" for="haveCat">貓</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+
+                                            <input class="custom-control-input" type="radio" name="havePet" id="haveBoth" value="3">
+                                            <label class="custom-control-label pl-1 cuz-pt-2px" for="haveBoth">皆有</label>
+                                        </div>
+                                        <div class="custom-control custom-radio custom-control-inline">
+
+                                            <input class="custom-control-input" type="radio" name="havePet" id="haveNone" value="4">
+                                            <label class="custom-control-label pl-1 cuz-pt-2px" for="haveNone">皆無</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="my-3">
+                                    <div class="text-center">
+                                        <label for="exampleFormControlInput1" class="font-weight-bold cuz-color-primary-darkest">我們有很棒的資訊想和您分享</label>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="custom-control custom-switch custom-control-inline">
+                                            <input class="custom-control-input" type="checkbox" name="news" id="checkboxNews" value="1" checked>
+                                            <label class="custom-control-label pl-1 cuz-pt-2px" for="checkboxNews">是否願意收到最新消息</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="my-3">
+                                    <div class="text-center">
+                                        <label for="exampleFormControlInput1" class="font-weight-bold cuz-color-primary-darkest">確認勾選即視為同意</label>
+                                    </div>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="custom-control custom-checkbox custom-control-inline">
+                                            <input class="custom-control-input" type="checkbox" name="agreeRole" id="checkboxAgree" value="1" checked>
+                                            <label class="custom-control-label pl-1 cuz-pt-2px" for="checkboxAgree">已閱讀並同意服務條款與隱私權政策</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="col-12 mb-4 row mx-0 p-0">
+                                <div class="col-2"></div>
+                                <div class="col-4 d-flex">
+                                    <button class="btn mx-auto cuz-btn-secondary" onclick="showSignUpBack();">上一步</button>
+                                </div>
+                                <div class="col-4 d-flex">
+                                    <button class="btn mx-auto cuz-btn-primary font-weight-bold" onclick="showSignUpEnd();">下一步</button>
+                                </div>
+                                <div class="col-2"></div>
+                            </section>
+                        </div>
+                        <div id="stepEndBlock" class="d-none">
+                            <section class="col-12 mb-3">
+                                <div id="stepEndTitle" class="h5 font-weight-normal text-center">恭喜！您已完成註冊</div>
+                                <div id="stepEndSubtitle" class="h5 font-weight-normal text-center">若三秒後無自動跳轉請點選回首頁按鈕</div>
+                            </section>
+                            <section class="col-12 mb-4 row mx-0 p-0" style="margin-top:263px">
+                                <div class="col-12 d-flex">
+                                    <button class="btn mx-auto cuz-btn-primary font-weight-bold" onclick="backHome();">回首頁</button>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast position-fixed cuz-toast">
+        <div>
+            <button type="button" class="mx-auto p-2 close" data-dismiss="toast">&times;</button>
+        </div>
+        <div class="toast-body position-absolute cuz-toast-body">
+            <div id="toastContent" class="d-flex flex-column"></div>
+        </div>
+    </div>
+
+
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted">
+        <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+            © 2022 Copyright MFEE22-Lumi
+        </div>
+    </footer>
+</body>
+
+
+
+</html>
